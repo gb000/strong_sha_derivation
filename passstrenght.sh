@@ -1,24 +1,26 @@
 #!/bin/bash
 
-touch file
 
 # Change the password here
-password=secret
+password=segredo123
 
-echo $password | sha256sum > file
+######echo $password | sha256sum > file
 
-# You can change Y and X value to increase or decrease processing time/diffuculty to bread the password via bruteforce
+# You can change Y and X value to increase or decrease processing time/difficulty to break the password via bruteforce
 x=10
-y=2
+y=3
 
+newround=$(echo $password | sha256sum)
 count=0
 while [ $count -lt $(( x ** y )) ]
 do
 
-newround=$(cat file)
-echo $newround | sha256sum >> file
-
+newround+=$(echo $newround | sha256sum)
+echo -e "\n\n\n$newround"
 count=`expr $count + 1`
 done
 
-echo "Final is " $final_round | sha256sum file
+final=$(echo $newround | sha256sum)
+
+echo -e "\nFinal is:\n $final\n"
+
