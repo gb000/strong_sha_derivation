@@ -1,26 +1,28 @@
 #!/bin/bash
 
-
-# Change the password here
-password=segredo123
-
-######echo $password | sha256sum > file
+echo "Please insert the Key: "
+read password
 
 # You can change Y and X value to increase or decrease processing time/difficulty to break the password via bruteforce
-x=10
-y=3
+x=101
+y=13
 
 newround=$(echo $password | sha256sum)
 count=0
-while [ $count -lt $(( x ** y )) ]
+while [ $count -lt $(( x )) ]
 do
 
 newround+=$(echo $newround | sha256sum)
-echo -e "\n\n\n$newround"
+if [ $count -lt $y ]
+then
+newround+=$newround
+fi
+echo -e "Round number $count"
+#echo $newround
 count=`expr $count + 1`
 done
 
 final=$(echo $newround | sha256sum)
 
-echo -e "\nFinal is:\n $final\n"
+echo -e "\nStrenghtened key is:\n $final\n"
 
